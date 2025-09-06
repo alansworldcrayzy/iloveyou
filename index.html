@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -184,6 +184,24 @@
       display: none; /* hidden until 📜 clicked */
     }
 
+    /* Lock message (hidden by default) */
+    #lockMessage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,240,246,0.97);
+      border: 3px solid #ff80ab;
+      border-radius: 20px;
+      padding: 30px 40px;
+      font-size: 2em;
+      color: #d81b60;
+      text-shadow: 0 0 8px #ff80ab;
+      box-shadow: 0 0 20px #ff66b2, 0 0 30px #ffb6c1;
+      display: none; /* shows only after 🔒 clicked */
+      z-index: 2000;
+    }
+
     /* Emoji controls */
     #controls {
       position: absolute;
@@ -228,6 +246,9 @@
     Hand in hand, through time we’ll go,<br>
     My forever, this I know. 💖
   </div>
+
+  <!-- Lock Message (hidden by default) -->
+  <div id="lockMessage">🔒 You have my heart forever 💖</div>
 
   <!-- Emoji controls -->
   <div id="controls">
@@ -360,7 +381,9 @@
     const moonEmoji = document.getElementById("moonEmoji");
     const sunEmoji = document.getElementById("sunEmoji");
     const poemEmoji = document.getElementById("poemEmoji");
+    const lockEmoji = document.getElementById("lockEmoji");
     const poemBox = document.getElementById("poemBox");
+    const lockMessage = document.getElementById("lockMessage");
     let stars = [];
 
     moonEmoji.addEventListener("click", () => {
@@ -391,10 +414,14 @@
         poemBox.style.display = "none";
       }
     });
+
+    /* Lock message (permanent popup) */
+    lockEmoji.addEventListener("click", () => {
+      lockMessage.style.display = "block";
+    });
   </script>
 </body>
 </html>
-
 
 
 
