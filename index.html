@@ -10,87 +10,88 @@
       background: linear-gradient(to right, #ffdde1, #ee9ca7);
       height: 100vh;
       margin: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
       overflow: hidden;
     }
-
     h1 {
       font-size: 2.5em;
-      margin-bottom: 20px;
+      margin: 15px 0;
       color: #d81b60;
+      text-shadow: 0 0 10px #ff80ab, 0 0 20px #ffb6c1;
+    }
+    h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #ff1a75;
+    }
+    button {
+      background: #ff4081;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 1.2em;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 10px;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.1);
+    }
+    #loveMsg {
+      margin-top: 20px;
+      font-size: 1.8em;
+      color: hotpink;
+      font-weight: bold;
     }
 
+    /* Sidebar question box */
     #questionBox {
       position: absolute;
       top: 20px;
       right: 20px;
-      background: #fff0f6;
+      background: rgba(255,240,246,0.95);
       border: 3px solid #ff80ab;
-      border-radius: 20px;
+      border-radius: 15px;
       padding: 15px;
       width: 280px;
-      box-shadow: 0 0 15px #ff80ab;
-      transition: all 0.3s ease;
+      box-shadow: 0 0 10px #ff80ab;
     }
-
-    #questionBox p {
-      margin: 0;
-      font-size: 1.1em;
+    #questionText {
+      font-size: 1.2em;
+      margin-bottom: 10px;
       color: #d81b60;
-      font-weight: bold;
     }
-
     #answerInput {
       width: 90%;
-      margin-top: 10px;
       padding: 12px;
-      border: 3px solid #ff80ab;
+      border: 2px solid #ff80ab;
       border-radius: 20px;
       outline: none;
       font-size: 1em;
-      text-align: center;
+      color: #5a3e36;
       background: #fff0f6;
-      box-shadow: 0 0 10px #ffb6c1;
+      box-shadow: 0 0 8px #ff80ab;
+      text-align: center;
       transition: all 0.3s ease;
     }
-
     #answerInput:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 20px #ff66b2, 0 0 40px #ff99cc;
-      background: #ffe0ec;
-    }
-
-    #answerInput:focus {
-      transform: scale(1.08);
-      box-shadow: 0 0 25px #ff4da6, 0 0 50px #ff99cc;
+      box-shadow: 0 0 15px #ff66b2, 0 0 25px #ffb6c1;
       background: #ffe6f0;
     }
-
-    #answerInput::placeholder {
-      color: #ff4da6;
-      opacity: 0.8;
-      font-style: italic;
-    }
-
     #answersList {
       position: absolute;
       bottom: 20px;
       left: 20px;
-      background: #fff0f6;
-      border-radius: 12px;
-      padding: 10px;
-      max-width: 250px;
-      box-shadow: 0 0 10px #ff80ab;
-      font-size: 0.9em;
       text-align: left;
     }
-
-    #answersList li {
+    #answersList div {
+      background: #ffe6f0;
       margin: 5px 0;
-      color: #d81b60;
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 1em;
+      box-shadow: 0 0 6px #ff80ab;
     }
 
     /* Love counter */
@@ -98,150 +99,205 @@
       position: absolute;
       bottom: 20px;
       right: 20px;
-      background: #fff0f6;
-      border: 3px solid #ff80ab;
-      border-radius: 12px;
+      font-size: 1.2em;
+      color: #ff1a75;
+      background: rgba(255,240,246,0.95);
       padding: 10px 15px;
-      font-size: 1em;
-      color: #d81b60;
-      font-weight: bold;
-      box-shadow: 0 0 12px #ff80ab;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ff80ab;
     }
 
-    /* Secret lock */
-    #lock {
+    /* Heart click counter */
+    #heartCounter {
       position: absolute;
       top: 20px;
       left: 20px;
-      font-size: 2em;
-      cursor: pointer;
-      color: #d81b60;
-      transition: transform 0.3s;
-    }
-    #lock:hover {
-      transform: scale(1.2);
-    }
-
-    #secretMessage {
-      display: none;
-      position: absolute;
-      top: 80px;
-      left: 20px;
-      background: #fff0f6;
-      border: 3px solid #ff80ab;
-      border-radius: 20px;
-      padding: 15px;
-      width: 250px;
-      box-shadow: 0 0 15px #ff80ab;
-      color: #d81b60;
-      font-weight: bold;
+      font-size: 1.2em;
+      color: #ff1a75;
+      background: rgba(255,240,246,0.95);
+      padding: 10px 15px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ff80ab;
     }
 
     /* Floating clickable hearts */
-    .floating-heart {
+    .clickable-heart {
       position: absolute;
-      font-size: 24px;
+      font-size: 2em;
       cursor: pointer;
-      animation: floatHeart 6s linear infinite;
+      animation: floatUp 10s linear forwards;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-120vh); opacity: 0; }
     }
 
-    @keyframes floatHeart {
-      from { transform: translateY(100vh) scale(1); opacity: 1; }
-      to { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    /* Milestone popup */
+    .milestone {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,240,246,0.95);
+      border: 3px solid #ff80ab;
+      border-radius: 20px;
+      padding: 20px 30px;
+      font-size: 1.5em;
+      color: #d81b60;
+      box-shadow: 0 0 15px #ff66b2, 0 0 25px #ffb6c1;
+      animation: popUp 1s ease;
+      z-index: 1000;
+    }
+    @keyframes popUp {
+      0% { transform: scale(0) translate(-50%, -50%); opacity: 0; }
+      100% { transform: scale(1) translate(-50%, -50%); opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <h1>Happy year and a half 💕</h1>
+  <h1>Happy year and a half 💖</h1>
 
-  <!-- Questions -->
+  <h2>Do you love me? 💕</h2>
+  <button id="yesBtn">Yes 💖</button>
+  <button id="noBtn">No 😒</button>
+  <div id="loveMsg"></div>
+
+  <!-- Heart Click Counter -->
+  <div id="heartCounter">Hearts clicked: 0 💖</div>
+
+  <!-- Sidebar Question Box -->
   <div id="questionBox">
-    <p id="questionText">What's your favourite moment with me? 💖</p>
-    <input type="text" id="answerInput" placeholder="Type your answer here 💕">
+    <div id="questionText">What's your favourite moment with me? 🥰</div>
+    <input type="text" id="answerInput" placeholder="Type your answer here 💖">
   </div>
 
-  <!-- Answers -->
-  <ul id="answersList"></ul>
+  <!-- Saved Answers -->
+  <div id="answersList"></div>
 
-  <!-- Love counter -->
-  <div id="loveCounter">Loving you for: 0 days 💕</div>
-
-  <!-- Lock secret -->
-  <div id="lock">🔒</div>
-  <div id="secretMessage">Surprise! You’re my forever 💍💖</div>
+  <!-- Love Counter -->
+  <div id="loveCounter"></div>
 
   <script>
-    /* Questions logic */
-    const questions = [
-      "What's your favourite moment with me? 💖",
-      "Meow?? 🐱",
-      "If we could go anywhere, where would you pick? ✈️",
-      "What song reminds you of us? 🎶",
-      "Guess how much I love you? 💕",
-      "Describe me in 3 words ✨",
-      "What's our cutest memory? 🌸"
+    /* Messages for Yes/No */
+    const messages = [
+      "I love you the most! 💖✨",
+      "You are my sunshine ☀️",
+      "My favorite thing is your smile 💌",
+      "Forever and always, it’s you 💍",
+      "Every heartbeat of mine whispers your name ❤️",
+      "Life is magical because of you ✨",
+      "You’re my today and all of my tomorrows 💞",
+      "You make my heart dance like confetti 🎉",
+      "Being with you is my favorite adventure 🌍✨",
+      "I’m so proud of you, my darling 💕"
     ];
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const msg = document.getElementById("loveMsg");
 
+    function showLove() {
+      const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+      msg.innerHTML = randomMsg;
+    }
+    yesBtn.addEventListener("click", showLove);
+    noBtn.addEventListener("click", () => {
+      msg.innerHTML = "Bruh 😒 (but I love you anyway 💖)";
+    });
+
+    /* Sidebar Questions */
+    const questions = [
+      "What's your favourite moment with me? 🥰",
+      "Meow?? 🐱💕",
+      "If we could go anywhere together, where would it be? ✈️🌍",
+      "What’s one song that reminds you of us? 🎶💖",
+      "If kisses were stars, how many galaxies would you give me? 🌌💋"
+    ];
     let questionIndex = 0;
     const questionText = document.getElementById("questionText");
     const answerInput = document.getElementById("answerInput");
     const answersList = document.getElementById("answersList");
+    let rotating = true;
 
-    let questionInterval = setInterval(nextQuestion, 3000);
+    setInterval(() => {
+      if (rotating) {
+        questionIndex = (questionIndex + 1) % questions.length;
+        questionText.textContent = questions[questionIndex];
+      }
+    }, 3000);
 
-    function nextQuestion() {
-      questionIndex = (questionIndex + 1) % questions.length;
-      questionText.textContent = questions[questionIndex];
-    }
+    answerInput.addEventListener("focus", () => { rotating = false; });
 
-    answerInput.addEventListener("focus", () => clearInterval(questionInterval));
-    answerInput.addEventListener("keypress", function(e) {
+    answerInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && answerInput.value.trim() !== "") {
-        const li = document.createElement("li");
-        li.textContent = "💖 " + answerInput.value;
-        answersList.appendChild(li);
+        const answer = document.createElement("div");
+        answer.textContent = `💖 ${questions[questionIndex]} — ${answerInput.value}`;
+        answersList.appendChild(answer);
         answerInput.value = "";
-        nextQuestion();
+        rotating = true;
+        questionIndex = (questionIndex + 1) % questions.length;
+        questionText.textContent = questions[questionIndex];
       }
     });
 
-    /* Love counter */
-    const loveCounter = document.getElementById("loveCounter");
-    const startDate = new Date("2024-03-08T00:00:00"); // <-- updated date
-    setInterval(() => {
-      const now = new Date();
-      const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-      loveCounter.textContent = `Loving you for: ${diffDays.toLocaleString()} days 💕`;
-    }, 1000);
+    /* Love counter in days since 08/03/24 */
+    function updateLoveCounter() {
+      const startDate = new Date("2024-03-08");
+      const today = new Date();
+      const diffTime = today - startDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      document.getElementById("loveCounter").textContent =
+        `Loving you for ${diffDays} days 💖`;
+    }
+    updateLoveCounter();
 
-    /* Secret lock */
-    const lock = document.getElementById("lock");
-    const secretMessage = document.getElementById("secretMessage");
-    lock.addEventListener("click", () => {
-      secretMessage.style.display = (secretMessage.style.display === "block") ? "none" : "block";
-    });
+    /* Heart click counter */
+    const heartCounter = document.getElementById("heartCounter");
+    let heartClicks = 0;
 
-    /* Floating clickable hearts */
-    function createFloatingHeart() {
-      const heart = document.createElement("span");
-      heart.className = "floating-heart";
-      heart.textContent = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+    /* Milestone messages */
+    const milestones = {
+      10: "You win a kiss 💋",
+      25: "You unlocked extra hugs 🤗",
+      50: "You’re the queen of hearts 👑💖",
+      100: "Infinite love unlocked ♾️❤️"
+    };
+
+    function showMilestone(text) {
+      const popup = document.createElement("div");
+      popup.classList.add("milestone");
+      popup.textContent = text;
+      document.body.appendChild(popup);
+      setTimeout(() => popup.remove(), 3000);
+    }
+
+    /* Floating clickable hearts minigame */
+    function spawnHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("clickable-heart");
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.bottom = "0px";
 
       heart.addEventListener("click", () => {
-        heart.textContent = "✨";
+        heart.innerHTML = "✨";
+        heartClicks++;
+        heartCounter.innerText = `Hearts clicked: ${heartClicks} 💖`;
+
+        if (milestones[heartClicks]) {
+          showMilestone(milestones[heartClicks]);
+        }
+
         setTimeout(() => heart.remove(), 500);
       });
 
       document.body.appendChild(heart);
-
-      setTimeout(() => heart.remove(), 7000);
+      setTimeout(() => heart.remove(), 12000); // last longer
     }
-    setInterval(createFloatingHeart, 2000);
+    setInterval(spawnHeart, 2000);
   </script>
 </body>
 </html>
+
 
    
 
