@@ -21,21 +21,12 @@
       margin-bottom: 30px;
       color: #d81b60;
     }
-    h2 {
-      font-size: 2em;
-      margin-bottom: 10px;
-      color: #c2185b;
-      animation: glowPulse 2s infinite alternate;
-    }
-    @keyframes glowPulse {
-      0% {
-        text-shadow: 0 0 5px #ff80ab, 0 0 10px #ff4081, 0 0 20px #f50057;
-        transform: scale(1);
-      }
-      100% {
-        text-shadow: 0 0 10px #ff80ab, 0 0 20px #ff4081, 0 0 40px #f50057;
-        transform: scale(1.05);
-      }
+    .special-msg {
+      font-size: 28px;
+      font-weight: bold;
+      color: #d63384;
+      margin-bottom: 20px;
+      text-shadow: 0 0 8px #fff, 0 0 15px #ff80ab;
     }
     button {
       background: #ff4081;
@@ -48,6 +39,7 @@
       margin: 10px;
       transition: transform 0.2s;
       position: relative;
+      z-index: 5;
     }
     button:hover {
       transform: scale(1.1);
@@ -60,33 +52,115 @@
       max-width: 80%;
       line-height: 1.5em;
     }
-    canvas {
+    #hearts {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
+      z-index: -1;
+    }
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: float 6s linear forwards;
+    }
+    @keyframes float {
+      from { transform: translateY(0) scale(1); opacity: 1; }
+      to { transform: translateY(-800px) scale(1.5); opacity: 0; }
+    }
+    .bruh {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5em;
+      font-weight: bold;
+      color: #ff1744;
+      background: rgba(255,255,255,0.9);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      display: none;
+      z-index: 10;
+      animation: pop 0.5s ease-out, shake 0.5s ease-in-out infinite;
+    }
+    @keyframes pop {
+      0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+    @keyframes shake {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      25% { transform: translate(-50%, -50%) rotate(-5deg); }
+      50% { transform: translate(-50%, -50%) rotate(5deg); }
+      75% { transform: translate(-50%, -50%) rotate(-5deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+    /* Sidebar for questions */
+    #questions {
+      position: fixed;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 250px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      font-size: 1.2em;
+      color: #d81b60;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    /* Flashy frozen question */
+    .flashy {
+      animation: flashyColors 1s infinite alternate;
+    }
+    @keyframes flashyColors {
+      0% { color: #ff1744; text-shadow: 0 0 10px #ff80ab; }
+      25% { color: #d81b60; text-shadow: 0 0 10px #ff4081; }
+      50% { color: #9c27b0; text-shadow: 0 0 10px #ba68c8; }
+      75% { color: #4caf50; text-shadow: 0 0 10px #81c784; }
+      100% { color: #2196f3; text-shadow: 0 0 10px #64b5f6; }
+    }
+    /* Answer box */
+    #answerBox {
+      display: none;
+      margin-top: 10px;
+    }
+    #answerBox input {
+      width: 90%;
+      padding: 8px;
+      border: 2px solid #ff80ab;
+      border-radius: 8px;
+      font-size: 1em;
+      outline: none;
     }
   </style>
 </head>
 <body>
-  <h2>Happy year and a half ❤️</h2>
+  <h2 class="special-msg">Happy year and a half ❤️</h2>
   <h1>Do you love me? 💕</h1>
   <button id="yesBtn">Yes 💖</button>
   <button id="noBtn">No 😒</button>
   <div id="loveMsg"></div>
-  <canvas id="confetti"></canvas>
+  <div id="hearts"></div>
+  <div id="bruhMsg" class="bruh">BRUH 😒</div>
+  <div id="questions">Loading...</div>
+  <div id="answerBox">
+    <input type="text" placeholder="Type your answer here...">
+  </div>
   
   <script>
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const msg = document.getElementById("loveMsg");
-    const canvas = document.getElementById("confetti");
-    const ctx = canvas.getContext("2d");
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const bruhMsg = document.getElementById("bruhMsg");
+    const questionsBox = document.getElementById("questions");
+    const answerBox = document.getElementById("answerBox");
+    let noClickedOnce = false;
+    let frozen = false;
 
     const messages = [
       "I love you the most! 💖✨",
@@ -99,66 +173,82 @@
       "If kisses were stars, I’d give you the galaxy 🌌",
       "You’re my today and all of my tomorrows 💞",
       "Hugging you is my happy place 🤗❤️",
-      "You make my heart dance like confetti 🎉",
       "You are the dream I never want to wake up from 🌙💖",
       "Being with you is my favorite adventure 🌍✨",
       "You make even ordinary days feel extraordinary 🌸",
       "I’m so proud of you, my darling 💕"
     ];
 
-    // Confetti setup
-    const confettis = [];
-    function createConfetti() {
-      for (let i = 0; i < 100; i++) {
-        confettis.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height - canvas.height,
-          r: Math.random() * 6 + 4,
-          d: Math.random() * 20 + 10,
-          color: "hsl(" + Math.random() * 360 + ",100%,50%)",
-          tilt: Math.random() * 10 - 10
-        });
-      }
-    }
+    const questions = [
+      "What’s your favourite moment with me? 🥰",
+      "If you could describe me in one word, what would it be? ✨",
+      "Meow?? 🐱💕",
+      "What’s your favourite silly thing we’ve done together? 😆",
+      "Would you still love me if I was a worm? 🐛💖",
+      "When did you first know you loved me? 💭",
+      "What’s your favourite way I make you smile? 😘",
+      "What’s a dream date we should go on? 🌙🌹",
+      "What song reminds you of us? 🎶💕",
+      "If we had a pet, what would we name it? 🐾"
+    ];
 
-    function drawConfetti() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      confettis.forEach((c, i) => {
-        ctx.beginPath();
-        ctx.fillStyle = c.color;
-        ctx.fillRect(c.x, c.y, c.r, c.r);
-        ctx.fill();
-        c.y += c.d * 0.05;
-        if (c.y > canvas.height) {
-          confettis[i] = {
-            x: Math.random() * canvas.width,
-            y: -10,
-            r: c.r,
-            d: c.d,
-            color: c.color,
-            tilt: c.tilt
-          };
-        }
-      });
-    }
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤";
+      const colors = ["#ff4d6d", "red", "purple", "green"];
+      heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.top = window.innerHeight + "px";
+      heart.style.fontSize = Math.random() * 20 + 15 + "px";
+      document.getElementById("hearts").appendChild(heart);
 
-    function animateConfetti() {
-      drawConfetti();
-      requestAnimationFrame(animateConfetti);
+      setTimeout(() => heart.remove(), 6000);
     }
+    setInterval(createHeart, 500);
 
-    // Shared function (works for both Yes & No)
+    // Show love messages
     function showLove() {
       const randomMsg = messages[Math.floor(Math.random() * messages.length)];
       msg.innerHTML = randomMsg;
-      confettis.length = 0;
-      createConfetti();
     }
 
+    // Handle Yes button
     yesBtn.addEventListener("click", showLove);
-    noBtn.addEventListener("click", showLove);
 
-    animateConfetti();
+    // Handle No button
+    noBtn.addEventListener("click", () => {
+      if (!noClickedOnce) {
+        bruhMsg.style.display = "block";
+        setTimeout(() => {
+          bruhMsg.style.display = "none";
+          noClickedOnce = true;
+        }, 2000);
+      } else {
+        showLove();
+      }
+    });
+
+    // Sidebar question rotation
+    function rotateQuestions() {
+      if (!frozen) {
+        const randomQ = questions[Math.floor(Math.random() * questions.length)];
+        questionsBox.innerHTML = randomQ;
+      }
+    }
+    setInterval(rotateQuestions, 5000);
+    rotateQuestions();
+
+    // Click question to freeze + answer
+    questionsBox.addEventListener("click", () => {
+      if (!frozen) {
+        frozen = true;
+        questionsBox.classList.add("flashy");
+        answerBox.style.display = "block";
+      }
+    });
   </script>
 </body>
 </html>
+
