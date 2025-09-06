@@ -1,23 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Do You Love Me? 💕</title>
   <style>
+    :root{
+      --pink1:#ffdde1;
+      --pink2:#ee9ca7;
+      --accent:#ff80ab;
+      --accent-strong:#ff66b2;
+      --text:#d81b60;
+      --panel:rgba(255,240,246,0.6);
+    }
+
+    /* ===================== Base & Animated Background ===================== */
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+      background: linear-gradient(120deg, var(--pink1), var(--pink2), #ffd1e8);
+      background-size: 300% 300%;
+      animation: gradientShift 22s ease infinite;
       height: 100vh;
       margin: 0;
       overflow: hidden;
       transition: background 1s ease;
     }
+    @keyframes gradientShift{
+      0%{ background-position: 0% 50%; }
+      50%{ background-position: 100% 50%; }
+      100%{ background-position: 0% 50%; }
+    }
+
     h1 {
       font-size: 2.5em;
       margin: 15px 0;
-      color: #d81b60;
-      text-shadow: 0 0 10px #ff80ab, 0 0 20px #ffb6c1;
+      color: var(--text);
+      text-shadow: 0 0 10px var(--accent), 0 0 20px #ffb6c1;
     }
     h2 {
       font-size: 2em;
@@ -30,239 +48,156 @@
       border: none;
       padding: 15px 25px;
       font-size: 1.2em;
-      border-radius: 12px;
+      border-radius: 14px;
       cursor: pointer;
       margin: 10px;
-      transition: transform 0.2s;
+      transition: transform .2s, box-shadow .2s, translate .2s;
+      box-shadow: 0 8px 18px rgba(255,64,129,.25);
     }
-    button:hover {
-      transform: scale(1.1);
-    }
+    button:hover { transform: translateY(-2px) scale(1.06); box-shadow: 0 10px 24px rgba(255,64,129,.35); }
+    button:active { transform: translateY(0) scale(1.01); }
+
     #loveMsg {
       margin-top: 20px;
       font-size: 1.8em;
       color: hotpink;
       font-weight: bold;
+      text-shadow: 0 0 8px rgba(255, 182, 193, .6);
+    }
+
+    /* ===================== Glass Panels ===================== */
+    .glass {
+      background: var(--panel);
+      border: 2.5px solid var(--accent);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(255, 102, 178, .25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     /* Sidebar question box */
     #questionBox {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(255,240,246,0.95);
-      border: 3px solid #ff80ab;
-      border-radius: 15px;
-      padding: 15px;
-      width: 280px;
-      box-shadow: 0 0 10px #ff80ab;
+      position: absolute; top: 20px; right: 20px;
+      padding: 15px; width: 280px;
     }
-    #questionText {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-      color: #d81b60;
-    }
+    #questionText { font-size: 1.2em; margin-bottom: 10px; color: var(--text); }
     #answerInput {
-      width: 90%;
-      padding: 12px;
-      border: 2px solid #ff80ab;
-      border-radius: 20px;
-      outline: none;
-      font-size: 1em;
-      color: #5a3e36;
-      background: #fff0f6;
-      box-shadow: 0 0 8px #ff80ab;
-      text-align: center;
-      transition: all 0.3s ease;
+      width: 90%; padding: 12px; border: 2px solid var(--accent);
+      border-radius: 20px; outline: none; font-size: 1em; color: #5a3e36;
+      background: #fff0f6; box-shadow: 0 0 8px var(--accent);
+      text-align: center; transition: all .3s ease;
     }
     #answerInput:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 15px #ff66b2, 0 0 25px #ffb6c1;
+      box-shadow: 0 0 15px var(--accent-strong), 0 0 25px #ffb6c1;
       background: #ffe6f0;
     }
-    #answersList {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      text-align: left;
-    }
+
+    #answersList { position: absolute; bottom: 20px; left: 20px; text-align: left; }
     #answersList div {
-      background: #ffe6f0;
-      margin: 5px 0;
-      padding: 5px 10px;
-      border-radius: 12px;
-      font-size: 1em;
-      box-shadow: 0 0 6px #ff80ab;
+      background: #ffe6f0; margin: 5px 0; padding: 6px 10px;
+      border-radius: 12px; font-size: 1em; box-shadow: 0 0 6px var(--accent);
     }
 
-    /* Love counter */
-    #loveCounter {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      font-size: 1.2em;
-      color: #ff1a75;
-      background: rgba(255,240,246,0.95);
-      padding: 10px 15px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #ff80ab;
+    /* Love & Heart counters */
+    #loveCounter, #heartCounter {
+      position: absolute; font-size: 1.1em; color: #ff1a75; padding: 10px 14px; border-radius: 12px;
     }
+    #loveCounter { bottom: 20px; right: 20px; }
+    #heartCounter { top: 20px; left: 20px; }
 
-    /* Heart click counter */
-    #heartCounter {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      font-size: 1.2em;
-      color: #ff1a75;
-      background: rgba(255,240,246,0.95);
-      padding: 10px 15px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #ff80ab;
-    }
-
-    /* Floating clickable hearts */
-    .clickable-heart {
-      position: absolute;
-      font-size: 2em;
-      cursor: pointer;
-      animation: floatUp 10s linear forwards;
-    }
-    @keyframes floatUp {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-120vh); opacity: 0; }
-    }
+    /* Floating clickable hearts (mini-game) */
+    .clickable-heart { position: absolute; font-size: 2em; cursor: pointer; animation: floatUp 10s linear forwards; }
+    @keyframes floatUp { 0%{ transform: translateY(0); opacity:1; } 100%{ transform: translateY(-120vh); opacity:0; } }
 
     /* Milestone popup */
     .milestone {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255,240,246,0.95);
-      border: 3px solid #ff80ab;
-      border-radius: 20px;
-      padding: 20px 30px;
-      font-size: 1.5em;
-      color: #d81b60;
-      box-shadow: 0 0 15px #ff66b2, 0 0 25px #ffb6c1;
-      animation: popUp 1s ease;
-      z-index: 1000;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      padding: 20px 30px; font-size: 1.5em; color: var(--text);
+      animation: popUp 1s ease; z-index: 1000; text-align:center;
     }
-    @keyframes popUp {
-      0% { transform: scale(0) translate(-50%, -50%); opacity: 0; }
-      100% { transform: scale(1) translate(-50%, -50%); opacity: 1; }
-    }
+    @keyframes popUp { 0%{ transform: scale(0) translate(-50%, -50%); opacity: 0;}
+                       100%{ transform: scale(1) translate(-50%, -50%); opacity: 1;} }
 
     /* Stars */
-    .star {
-      position: absolute;
-      color: white;
-      font-size: 1em;
-      opacity: 0.8;
-      animation: twinkle 4s infinite;
-    }
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 1; }
-    }
+    .star { position: absolute; color: white; font-size: 1em; opacity: 0.8; animation: twinkle 4s infinite; }
+    @keyframes twinkle { 0%,100%{opacity:.2} 50%{opacity:1} }
 
-    /* Poem (hidden by default) */
-    #poemBox {
-      position: absolute;
-      top: 50%;
-      left: 10px;
-      transform: translateY(-50%);
-      width: 250px;
-      padding: 15px;
-      background: rgba(255,240,246,0.95);
-      border: 3px solid #ff80ab;
-      border-radius: 15px;
-      font-size: 1em;
-      color: #d81b60;
-      text-shadow: 0 0 6px #ffb6c1;
-      display: none;
-    }
+    /* Poem */
+    #poemBox { position:absolute; top:50%; left:10px; transform: translateY(-50%);
+               width:250px; padding:15px; font-size:1em; color:var(--text); text-shadow:0 0 6px #ffb6c1; display:none; }
 
-    /* Lock message with fade toggle */
+    /* Lock message (fade toggle) */
     #lockMessage {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255,240,246,0.97);
-      border: 3px solid #ff80ab;
-      border-radius: 20px;
-      padding: 30px 40px;
-      font-size: 2em;
-      color: #d81b60;
-      text-shadow: 0 0 8px #ff80ab;
-      box-shadow: 0 0 20px #ff66b2, 0 0 30px #ffb6c1;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.6s ease;
-      z-index: 2000;
+      position:absolute; top:50%; left:50%; transform: translate(-50%, -50%);
+      padding: 30px 40px; font-size:2em; color:var(--text);
+      opacity:0; pointer-events:none; transition: opacity .6s ease; z-index:2000; text-align:center;
     }
-    #lockMessage.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    #lockMessage.show { opacity:1; pointer-events:auto; }
 
-    /* Emoji controls */
-    #controls {
-      position: absolute;
-      top: 65%;
-      left: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      font-size: 2em;
-      cursor: pointer;
-    }
+    /* Controls */
+    #controls { position:absolute; top:65%; left:10px; display:flex; flex-direction:column; gap:10px; font-size:2em; cursor:pointer; }
 
     /* Globe & Nerd emoji */
-    #globeEmoji, #nerdEmoji {
-      position: absolute;
-      font-size: 2em;
-      cursor: pointer;
-      right: 10px;
-    }
+    #globeEmoji, #nerdEmoji { position:absolute; font-size:2em; cursor:pointer; right: 10px; }
     #globeEmoji { top: 50%; }
-    #nerdEmoji { top: 60%; }
+    #nerdEmoji  { top: 60%; }
 
     /* Fun fact box */
     #factBox {
-      position: absolute;
-      top: 70%;
-      right: 10px;
-      background: rgba(255,240,246,0.97);
-      border: 2px solid #ff80ab;
-      border-radius: 15px;
-      padding: 15px;
-      font-size: 1.2em;
-      color: #d81b60;
-      width: 250px;
-      display: none;
+      position:absolute; top: 70%; right: 10px; padding: 15px; font-size:1.1em; color:var(--text);
+      width:260px; display:none;
+    }
+    #factBox.show { display:block; }
+
+    /* Compliments (ticker) */
+    .compliment { position:absolute; top:50%; left:100%; font-size:1.4em; color:#ff4da6; opacity:.45; white-space:nowrap; animation: moveLeft 15s linear infinite; }
+    @keyframes moveLeft { from{ left:100%; } to{ left:-100%; } }
+
+    /* Cursor Heart Trail */
+    .cursor-heart{
+      position: fixed; pointer-events: none; z-index: 5000; font-size: 16px; will-change: transform, opacity;
+      animation: heartFade 900ms ease forwards;
+      text-shadow: 0 0 8px rgba(255,102,178,.65);
+    }
+    @keyframes heartFade{
+      0%{ transform: translateY(0) scale(1); opacity: 1; }
+      100%{ transform: translateY(-24px) scale(.8); opacity: 0; }
     }
 
-    /* Compliments */
-    .compliment {
-      position: absolute;
-      top: 50%;
-      left: 100%;
-      font-size: 1.5em;
-      color: #ff4da6;
-      opacity: 0.4;
-      white-space: nowrap;
-      animation: moveLeft 15s linear infinite;
+    /* Lightweight Confetti */
+    .confetti{
+      position: fixed; width:8px; height:8px; border-radius:2px; z-index:4000; opacity:.9;
+      animation: confettiFall 900ms ease-out forwards;
+      box-shadow: 0 0 8px rgba(0,0,0,.08);
     }
-    @keyframes moveLeft {
-      from { left: 100%; }
-      to { left: -100%; }
+    @keyframes confettiFall{
+      0%{ transform: translate(0,0) rotate(0deg); opacity:1; }
+      100%{ transform: translate(var(--dx), var(--dy)) rotate(360deg); opacity:0; }
+    }
+
+    /* Background gentle hearts */
+    #bgHearts{ position:absolute; inset:0; overflow:hidden; z-index:0; pointer-events:none; }
+    .bg-heart{
+      position:absolute; color: rgba(255, 105, 180, .25); font-size: 20px;
+      animation: floatBg linear infinite;
+    }
+    @keyframes floatBg{
+      from{ transform: translateY(110vh) rotate(0deg); }
+      to{ transform: translateY(-10vh) rotate(360deg); }
+    }
+
+    /* Apply glass to panels */
+    #questionBox, #loveCounter, #heartCounter, #poemBox, #lockMessage, #factBox { /* shared styling */
+      border: 2.5px solid var(--accent); border-radius: 16px; box-shadow: 0 8px 24px rgba(255, 102, 178, .25);
+      background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     }
   </style>
 </head>
 <body>
+  <!-- Gentle floating background hearts -->
+  <div id="bgHearts" aria-hidden="true"></div>
+
   <h1>Happy year and a half 💖</h1>
 
   <h2>Do you love me? 💕</h2>
@@ -271,49 +206,54 @@
   <div id="loveMsg"></div>
 
   <!-- Heart Click Counter -->
-  <div id="heartCounter">Hearts clicked: 0 💖</div>
+  <div id="heartCounter" class="glass">Hearts clicked: 0 💖</div>
 
   <!-- Sidebar Question Box -->
-  <div id="questionBox">
+  <div id="questionBox" class="glass">
     <div id="questionText">What's your favourite moment with me? 🥰</div>
-    <input type="text" id="answerInput" placeholder="Type your answer here 💖">
+    <input type="text" id="answerInput" placeholder="Type your answer here 💖" />
   </div>
 
   <!-- Saved Answers -->
   <div id="answersList"></div>
 
   <!-- Love Counter -->
-  <div id="loveCounter"></div>
+  <div id="loveCounter" class="glass"></div>
 
   <!-- Poem (hidden by default) -->
-  <div id="poemBox">
-    🌸 Our Poem 🌸<br><br>
-    In your smile, the sun will rise,<br>
-    Lighting stars within your eyes.<br>
-    Hand in hand, through time we’ll go,<br>
+  <div id="poemBox" class="glass">
+    🌸 Our Poem 🌸<br /><br />
+    In your smile, the sun will rise,<br />
+    Lighting stars within your eyes.<br />
+    Hand in hand, through time we’ll go,<br />
     My forever, this I know. 💖
   </div>
 
   <!-- Lock Message -->
-  <div id="lockMessage">🔒 You have my heart forever 💖</div>
+  <div id="lockMessage" class="glass">🔒 You have my heart forever 💖</div>
 
   <!-- Emoji controls -->
   <div id="controls">
-    <div id="poemEmoji">📜</div>
-    <div id="sunEmoji">☀️</div>
-    <div id="moonEmoji">🌙</div>
-    <div id="lockEmoji">🔒</div>
+    <div id="poemEmoji" title="Show/Hide Poem">📜</div>
+    <div id="sunEmoji" title="Sunlight Mode">☀️</div>
+    <div id="moonEmoji" title="Moonlight Mode">🌙</div>
+    <div id="lockEmoji" title="Lock Message">🔒</div>
   </div>
 
   <!-- Globe and Nerd emoji -->
-  <div id="globeEmoji">🌍</div>
-  <div id="nerdEmoji">🤓</div>
+  <div id="globeEmoji" title="Open Google Maps">🌍</div>
+  <div id="nerdEmoji" title="Fun Fact Toggle">🤓</div>
 
   <!-- Fun fact box -->
-  <div id="factBox"></div>
+  <div id="factBox" class="glass" role="status" aria-live="polite"></div>
 
   <script>
-    /* Messages for Yes/No */
+    /* ===================== Utilities ===================== */
+    const $ = (sel)=>document.querySelector(sel);
+    const rand = (min,max)=>Math.random()*(max-min)+min;
+    const pick = (arr)=>arr[Math.floor(Math.random()*arr.length)];
+
+    /* ===================== Messages for Yes/No ===================== */
     const messages = [
       "I love you the most! 💖✨",
       "You are my sunshine ☀️",
@@ -327,7 +267,7 @@
       "I’m so proud of you, my darling 💕"
     ];
 
-    /* Countries */
+    /* ===================== Countries ===================== */
     const countries = [
       "Poland","Czechia","Slovakia","Hungary","Lithuania",
       "Latvia","Estonia","Slovenia","Croatia","Montenegro",
@@ -337,24 +277,87 @@
       "Seychelles","Mauritius","Eswatini","Lesotho","Suriname",
       "Guyana","Belize","Palau","Micronesia","Kiribati","Tonga"
     ];
-    function getRandomCountry() {
-      return countries[Math.floor(Math.random() * countries.length)];
+    const getRandomCountry = ()=>pick(countries);
+
+    /* ===================== Elements ===================== */
+    const yesBtn = $("#yesBtn");
+    const noBtn  = $("#noBtn");
+    const msg    = $("#loveMsg");
+    const questionText = $("#questionText");
+    const answerInput  = $("#answerInput");
+    const answersList  = $("#answersList");
+    const heartCounter = $("#heartCounter");
+    const loveCounter  = $("#loveCounter");
+    const poemBox      = $("#poemBox");
+    const lockMessage  = $("#lockMessage");
+    const globeEmoji   = $("#globeEmoji");
+    const nerdEmoji    = $("#nerdEmoji");
+    const factBox      = $("#factBox");
+    const bgHearts     = $("#bgHearts");
+
+    /* ===================== Gentle Background Hearts ===================== */
+    function seedBackgroundHearts(){
+      const count = 18;
+      const glyphs = ["💖","💖","💞","💕","💗","❤️"];
+      for(let i=0;i<count;i++){
+        const h = document.createElement("div");
+        h.className = "bg-heart";
+        h.textContent = pick(glyphs);
+        h.style.left = `${rand(0, 100)}vw`;
+        h.style.fontSize = `${rand(16, 34)}px`;
+        h.style.animationDuration = `${rand(18, 35)}s`;
+        h.style.animationDelay = `${rand(-30, 0)}s`;
+        bgHearts.appendChild(h);
+      }
+    }
+    seedBackgroundHearts();
+
+    /* ===================== Confetti ===================== */
+    function burstConfetti(x, y, amount=26){
+      const colors = ["#ff80ab","#ffd1e8","#ffb6c1","#ff4081","#ff99cc","#ff66b2"];
+      for(let i=0;i<amount;i++){
+        const p = document.createElement("div");
+        p.className = "confetti";
+        p.style.left = `${x}px`;
+        p.style.top  = `${y}px`;
+        p.style.background = pick(colors);
+        p.style.setProperty("--dx", `${rand(-140,140)}px`);
+        p.style.setProperty("--dy", `${rand(-160,80)}px`);
+        document.body.appendChild(p);
+        setTimeout(()=>p.remove(), 1000);
+      }
     }
 
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const msg = document.getElementById("loveMsg");
+    /* ===================== Cursor Heart Trail ===================== */
+    let lastTrail = 0;
+    window.addEventListener("mousemove",(e)=>{
+      const now = performance.now();
+      if(now - lastTrail < 28) return; // throttle
+      lastTrail = now;
+      const sp = document.createElement("span");
+      sp.className = "cursor-heart";
+      sp.textContent = pick(["💖","💕","💞"]);
+      sp.style.left = `${e.clientX}px`;
+      sp.style.top  = `${e.clientY}px`;
+      document.body.appendChild(sp);
+      setTimeout(()=>sp.remove(), 950);
+    });
 
-    yesBtn.addEventListener("click", () => {
-      const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+    /* ===================== Yes / No Actions ===================== */
+    yesBtn.addEventListener("click", (e) => {
+      const randomMsg = pick(messages);
       const randomCountry = getRandomCountry();
       msg.innerHTML = `${randomMsg} (baby we should go to ${randomCountry} someday 🌍💕)`;
+
+      // confetti burst near the Yes button
+      const rect = yesBtn.getBoundingClientRect();
+      burstConfetti(rect.left + rect.width/2, rect.top + rect.height/2);
     });
     noBtn.addEventListener("click", () => {
-      msg.innerHTML = "Bruh 😒 (but I love you anyway 💖)";
+      msg.textContent = "Bruh 😒 (but I love you anyway 💖)";
     });
 
-    /* Sidebar Questions */
+    /* ===================== Sidebar Questions ===================== */
     const questions = [
       "What's your favourite moment with me? 🥰",
       "Meow?? 🐱💕",
@@ -363,9 +366,6 @@
       "If kisses were stars, how many galaxies would you give me? 🌌💋"
     ];
     let questionIndex = 0;
-    const questionText = document.getElementById("questionText");
-    const answerInput = document.getElementById("answerInput");
-    const answersList = document.getElementById("answersList");
     let rotating = true;
 
     setInterval(() => {
@@ -376,7 +376,6 @@
     }, 3000);
 
     answerInput.addEventListener("focus", () => { rotating = false; });
-
     answerInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && answerInput.value.trim() !== "") {
         const answer = document.createElement("div");
@@ -389,96 +388,88 @@
       }
     });
 
-    /* Love counter in days since 08/03/24 */
+    /* ===================== Love counter in days since 08/03/24 ===================== */
     function updateLoveCounter() {
       const startDate = new Date("2024-03-08");
       const today = new Date();
       const diffTime = today - startDate;
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      document.getElementById("loveCounter").textContent =
-        `Loving you for ${diffDays} days 💖`;
+      loveCounter.textContent = `Loving you for ${diffDays} days 💖`;
     }
     updateLoveCounter();
 
-    /* Heart click counter */
-    const heartCounter = document.getElementById("heartCounter");
+    /* ===================== Heart click counter mini-game ===================== */
     let heartClicks = 0;
-
-    /* Milestone messages */
     const milestones = {
       10: "You win a kiss 💋",
       20: "You unlocked extra hugs 🤗",
       25: "You’re the queen of hearts 👑💖",
       30: "Infinite love unlocked ♾️❤️"
     };
-
     function showMilestone(text) {
       const popup = document.createElement("div");
-      popup.classList.add("milestone");
+      popup.className = "milestone glass";
       popup.textContent = text;
       document.body.appendChild(popup);
+      // confetti for milestones
+      const {innerWidth:w, innerHeight:h} = window;
+      burstConfetti(w/2, h/2, 36);
       setTimeout(() => popup.remove(), 3000);
     }
-
-    /* Floating clickable hearts */
     function spawnHeart() {
       const heart = document.createElement("div");
-      heart.classList.add("clickable-heart");
-      heart.innerHTML = "💖";
+      heart.className = "clickable-heart";
+      heart.innerHTML = pick(["💖","❤️","💜","💚"]);
       heart.style.left = Math.random() * window.innerWidth + "px";
       heart.style.bottom = "0px";
-
       heart.addEventListener("click", () => {
         heart.innerHTML = "✨";
         heartClicks++;
         heartCounter.innerText = `Hearts clicked: ${heartClicks} 💖`;
-
-        if (milestones[heartClicks]) {
-          showMilestone(milestones[heartClicks]);
-        }
-
+        if (milestones[heartClicks]) showMilestone(milestones[heartClicks]);
         setTimeout(() => heart.remove(), 500);
       });
-
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 12000);
     }
     setInterval(spawnHeart, 1000);
 
-    /* Emojis */
-    const poemBox = document.getElementById("poemBox");
-    document.getElementById("poemEmoji").addEventListener("click", () => {
+    /* ===================== Emojis ===================== */
+    $("#poemEmoji").addEventListener("click", () => {
       poemBox.style.display = poemBox.style.display === "none" ? "block" : "none";
     });
 
-    document.getElementById("moonEmoji").addEventListener("click", () => {
+    $("#moonEmoji").addEventListener("click", () => {
+      document.body.style.animation = "none";               // pause gradient shift
       document.body.style.background = "black";
       for (let i = 0; i < 30; i++) {
         const star = document.createElement("div");
         star.classList.add("star");
-        star.textContent = "✨";
+        star.textContent = "✦";
         star.style.top = Math.random() * window.innerHeight + "px";
         star.style.left = Math.random() * window.innerWidth + "px";
+        star.style.fontSize = Math.random() * 12 + 8 + "px";
         document.body.appendChild(star);
       }
     });
 
-    document.getElementById("sunEmoji").addEventListener("click", () => {
-      document.body.style.background = "linear-gradient(to right, #ffdde1, #ee9ca7)";
+    $("#sunEmoji").addEventListener("click", () => {
+      document.body.style.background = "";                  // revert to CSS gradient
+      document.body.style.animation = "gradientShift 22s ease infinite";
       document.querySelectorAll(".star").forEach(star => star.remove());
     });
 
     /* Lock emoji toggle fade */
-    const lockMessage = document.getElementById("lockMessage");
-    document.getElementById("lockEmoji").addEventListener("click", () => {
+    $("#lockEmoji").addEventListener("click", () => {
       lockMessage.classList.toggle("show");
     });
 
-    document.getElementById("globeEmoji").addEventListener("click", () => {
+    /* Globe -> Google Maps */
+    globeEmoji.addEventListener("click", () => {
       window.open("https://www.google.com/maps", "_blank");
     });
 
-    /* Fun Facts */
+    /* ===================== Fun Facts (toggle on/off with 🤓) ===================== */
     const facts = [
       "Bananas are berries, but strawberries are not! 🍌🍓",
       "Octopuses have three hearts 💖🐙",
@@ -506,31 +497,47 @@
       "The tongue of a blue whale weighs more than an elephant 🐘🐋",
       "Pigeons can recognize themselves in a mirror 🪞🐦",
       "There’s a species of jellyfish that can live forever 🪼♾️",
-      "Apples float in water because they are 25% air 🍏💨",
+      "Apples float in water because they are ~25% air 🍏💨",
       "Rats laugh when tickled 🐭😂",
       "A day on Saturn lasts only 10.7 hours 🪐",
-      "Ants never sleep 😴❌🐜",
       "Elephants are the only animals that can’t jump 🐘🚫",
-      "Banana plants are actually herbs, not trees 🌿🍌",
+      "Banana plants are herbs, not trees 🌿🍌",
       "Sharks don’t have bones—they’re made of cartilage 🦈",
       "Starfish can regrow their arms ⭐️🐟",
-      "There are more plastic flamingos than real ones 🦩🪑",
-      "A cockroach can live for weeks without its head 🪳😳",
       "Some frogs can freeze solid and come back to life 🐸❄️",
       "The dot over the letter 'i' is called a tittle ✒️",
       "Water can boil and freeze at the same time (triple point) 💧❄️🔥",
-      "The fingerprints of a koala can confuse crime scene investigators 🐨🔍"
+      "Honey never spoils—edible for thousands of years 🍯",
+      "Cows have almost 360° vision 🐮👀",
+      "Octopus blood is blue because of copper-based hemocyanin 🔵",
+      "Hot water can freeze faster than cold (Mpemba effect) 🧊",
+      "Hedgehogs float in water 🦔💦",
+      "Hummingbirds can fly backwards 🐦↩️",
+      "The Eiffel Tower grows in summer (thermal expansion) 🗼☀️",
+      "A shrimp’s heart is in its head 🍤❤️",
+      "Humans share 60% of DNA with bananas 🧬🍌",
+      "Venus spins backwards (retrograde rotation) ♀️🔄",
+      "The shortest war lasted ~38 minutes (Anglo-Zanzibar, 1896) ⏱️",
+      "Koalas sleep up to 20 hours a day 😴🐨",
+      "Saturn could float in a bathtub (if it were big enough) 🛁🪐",
+      "Blue whales are louder than jet engines 🔊🐋",
+      "Strawberries aren’t true berries; tomatoes are 🍓🍅",
+      "Peanut isn’t a nut; it’s a legume 🥜🌱"
     ];
 
-    const nerdEmoji = document.getElementById("nerdEmoji");
-    const factBox = document.getElementById("factBox");
-
+    function showRandomFact(){
+      factBox.textContent = pick(facts);
+    }
     nerdEmoji.addEventListener("click", () => {
-      factBox.style.display = "block";
-      factBox.textContent = facts[Math.floor(Math.random() * facts.length)];
+      // toggle visibility, refresh fact on show
+      const willShow = !factBox.classList.contains("show");
+      factBox.classList.toggle("show");
+      if (willShow) showRandomFact();
     });
+    // Clicking the fact box itself gets a fresh fact
+    factBox.addEventListener("click", showRandomFact);
 
-    /* Compliments */
+    /* ===================== Compliments (ticker) ===================== */
     const compliments = [
       "You’re so beautiful 💖",
       "You make my world brighter ☀️",
@@ -544,12 +551,13 @@
       "You’re sweeter than candy 🍬"
     ];
     function spawnCompliment() {
-      const compliment = document.createElement("div");
-      compliment.classList.add("compliment");
-      compliment.textContent = compliments[Math.floor(Math.random() * compliments.length)];
-      compliment.style.top = `${40 + Math.random() * 20}%`;
-      document.body.appendChild(compliment);
-      setTimeout(() => compliment.remove(), 15000);
+      const c = document.createElement("div");
+      c.className = "compliment";
+      c.textContent = pick(compliments);
+      c.style.top = `${40 + Math.random() * 20}%`;
+      c.style.opacity = 0.35 + Math.random()*0.25;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 15000);
     }
     setInterval(spawnCompliment, 5000);
   </script>
