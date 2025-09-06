@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -11,6 +11,7 @@
       height: 100vh;
       margin: 0;
       overflow: hidden;
+      transition: background 1s ease;
     }
     h1 {
       font-size: 2.5em;
@@ -98,7 +99,7 @@
     #loveCounter {
       position: absolute;
       bottom: 20px;
-      right: 80px;
+      right: 20px;
       font-size: 1.2em;
       color: #ff1a75;
       background: rgba(255,240,246,0.95);
@@ -153,31 +154,46 @@
       100% { transform: scale(1) translate(-50%, -50%); opacity: 1; }
     }
 
-    /* Lock emoji */
-    #lockEmoji {
+    /* Stars */
+    .star {
       position: absolute;
-      bottom: 20px;
-      right: 20px;
-      font-size: 2em;
-      cursor: pointer;
+      color: white;
+      font-size: 1em;
+      opacity: 0.8;
+      animation: twinkle 4s infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
     }
 
-    /* Love message popup */
-    #lockMessage {
-      display: none;
+    /* Poem (hidden by default) */
+    #poemBox {
       position: absolute;
       top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2.5em;
-      color: #ff1a75;
-      text-shadow: 0 0 15px #ff80ab, 0 0 25px #ffb6c1;
-      font-weight: bold;
+      left: 10px;
+      transform: translateY(-50%);
+      width: 250px;
+      padding: 15px;
       background: rgba(255,240,246,0.95);
-      padding: 20px 40px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px #ff66b2, 0 0 40px #ffb6c1;
-      z-index: 2000;
+      border: 3px solid #ff80ab;
+      border-radius: 15px;
+      font-size: 1em;
+      color: #d81b60;
+      text-shadow: 0 0 6px #ffb6c1;
+      display: none; /* hidden until 📜 clicked */
+    }
+
+    /* Emoji controls */
+    #controls {
+      position: absolute;
+      top: 65%;
+      left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 2em;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -204,11 +220,22 @@
   <!-- Love Counter -->
   <div id="loveCounter"></div>
 
-  <!-- Lock Emoji -->
-  <div id="lockEmoji">🔒</div>
+  <!-- Poem (hidden by default) -->
+  <div id="poemBox">
+    🌸 Our Poem 🌸<br><br>
+    In your smile, the sun will rise,<br>
+    Lighting stars within your eyes.<br>
+    Hand in hand, through time we’ll go,<br>
+    My forever, this I know. 💖
+  </div>
 
-  <!-- Love Message -->
-  <div id="lockMessage">💖 I love you and I’m so proud of you darling 💖</div>
+  <!-- Emoji controls -->
+  <div id="controls">
+    <div id="poemEmoji">📜</div>
+    <div id="sunEmoji">☀️</div>
+    <div id="moonEmoji">🌙</div>
+    <div id="lockEmoji">🔒</div>
+  </div>
 
   <script>
     /* Messages for Yes/No */
@@ -307,7 +334,8 @@
     function spawnHeart() {
       const heart = document.createElement("div");
       heart.classList.add("clickable-heart");
-      heart.innerHTML = "💖";
+      const colors = ["💖","❤️","💜","💚"];
+      heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
       heart.style.left = Math.random() * window.innerWidth + "px";
       heart.style.bottom = "0px";
 
@@ -326,13 +354,42 @@
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 12000);
     }
-    setInterval(spawnHeart, 1000);
+    setInterval(spawnHeart, 1000); // spawn every second
 
-    /* Lock emoji functionality */
-    const lockEmoji = document.getElementById("lockEmoji");
-    const lockMessage = document.getElementById("lockMessage");
-    lockEmoji.addEventListener("click", () => {
-      lockMessage.style.display = "block";
+    /* Stars when moon clicked */
+    const moonEmoji = document.getElementById("moonEmoji");
+    const sunEmoji = document.getElementById("sunEmoji");
+    const poemEmoji = document.getElementById("poemEmoji");
+    const poemBox = document.getElementById("poemBox");
+    let stars = [];
+
+    moonEmoji.addEventListener("click", () => {
+      document.body.style.background = "black";
+      for (let i = 0; i < 30; i++) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.innerHTML = "✦";
+        star.style.left = Math.random() * window.innerWidth + "px";
+        star.style.top = Math.random() * window.innerHeight + "px";
+        star.style.fontSize = Math.random() * 12 + 8 + "px";
+        document.body.appendChild(star);
+        stars.push(star);
+      }
+    });
+
+    sunEmoji.addEventListener("click", () => {
+      document.body.style.background = "linear-gradient(to right, #ffdde1, #ee9ca7)";
+      stars.forEach(star => star.remove());
+      stars = [];
+    });
+
+    /* Poem toggle */
+    poemEmoji.addEventListener("click", () => {
+      if (poemBox.style.display === "none") {
+        poemBox.style.display = "block";
+      } else {
+        poemBox.style.display = "none";
+      }
     });
   </script>
 </body>
