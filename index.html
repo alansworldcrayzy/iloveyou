@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -272,13 +272,33 @@
       "Being with you is my favorite adventure 🌍✨",
       "I’m so proud of you, my darling 💕"
     ];
+
+    /* 🌍 Country list */
+    const countries = [
+      "United States", "Canada", "Mexico", "Brazil", "Argentina",
+      "United Kingdom", "France", "Germany", "Italy", "Spain",
+      "Poland", "Czechia", "Slovakia", "Hungary", "Lithuania",
+      "Latvia", "Estonia", "Slovenia", "Croatia", "Montenegro",
+      "Bosnia and Herzegovina", "North Macedonia", "Albania",
+      "Georgia", "Armenia", "Azerbaijan", "Mongolia", "Bhutan",
+      "Laos", "Maldives", "Fiji", "Samoa", "Vanuatu",
+      "Madagascar", "Seychelles", "Mauritius", "Eswatini",
+      "Lesotho", "Suriname", "Guyana", "Belize", "Palau",
+      "Micronesia", "Kiribati", "Tonga"
+    ];
+
+    function getRandomCountry() {
+      return countries[Math.floor(Math.random() * countries.length)];
+    }
+
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const msg = document.getElementById("loveMsg");
 
     function showLove() {
       const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-      msg.innerHTML = randomMsg;
+      const randomCountry = getRandomCountry();
+      msg.innerHTML = `${randomMsg} (let’s go to ${randomCountry} someday 🌍💕)`;
     }
     yesBtn.addEventListener("click", showLove);
     noBtn.addEventListener("click", () => {
@@ -301,8 +321,12 @@
 
     setInterval(() => {
       if (rotating) {
+        if (questions[questionIndex].includes("anywhere together")) {
+          questionText.textContent = `If we could go anywhere together, should we go to ${getRandomCountry()}? ✈️🌍`;
+        } else {
+          questionText.textContent = questions[questionIndex];
+        }
         questionIndex = (questionIndex + 1) % questions.length;
-        questionText.textContent = questions[questionIndex];
       }
     }, 3000);
 
@@ -311,7 +335,7 @@
     answerInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && answerInput.value.trim() !== "") {
         const answer = document.createElement("div");
-        answer.textContent = `💖 ${questions[questionIndex]} — ${answerInput.value}`;
+        answer.textContent = `💖 ${questionText.textContent} — ${answerInput.value}`;
         answersList.appendChild(answer);
         answerInput.value = "";
         rotating = true;
@@ -426,9 +450,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-   
-
