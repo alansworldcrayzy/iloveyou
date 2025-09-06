@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -167,7 +167,7 @@
       50% { opacity: 1; }
     }
 
-    /* Fixed poem */
+    /* Poem (hidden by default) */
     #poemBox {
       position: absolute;
       top: 50%;
@@ -181,6 +181,7 @@
       font-size: 1em;
       color: #d81b60;
       text-shadow: 0 0 6px #ffb6c1;
+      display: none; /* hidden until 📜 clicked */
     }
 
     /* Emoji controls */
@@ -219,7 +220,7 @@
   <!-- Love Counter -->
   <div id="loveCounter"></div>
 
-  <!-- Poem -->
+  <!-- Poem (hidden by default) -->
   <div id="poemBox">
     🌸 Our Poem 🌸<br><br>
     In your smile, the sun will rise,<br>
@@ -358,6 +359,8 @@
     /* Stars when moon clicked */
     const moonEmoji = document.getElementById("moonEmoji");
     const sunEmoji = document.getElementById("sunEmoji");
+    const poemEmoji = document.getElementById("poemEmoji");
+    const poemBox = document.getElementById("poemBox");
     let stars = [];
 
     moonEmoji.addEventListener("click", () => {
@@ -379,9 +382,19 @@
       stars.forEach(star => star.remove());
       stars = [];
     });
+
+    /* Poem toggle */
+    poemEmoji.addEventListener("click", () => {
+      if (poemBox.style.display === "none") {
+        poemBox.style.display = "block";
+      } else {
+        poemBox.style.display = "none";
+      }
+    });
   </script>
 </body>
 </html>
+
 
 
    
