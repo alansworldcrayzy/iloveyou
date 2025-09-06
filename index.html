@@ -220,13 +220,30 @@
       cursor: pointer;
     }
 
-    /* Globe emoji */
-    #globeEmoji {
+    /* Globe + Nerd emojis */
+    #globeEmoji, #nerdEmoji {
       position: absolute;
-      top: 50%;
       right: 10px;
       font-size: 2em;
       cursor: pointer;
+    }
+    #globeEmoji { top: 50%; }
+    #nerdEmoji { top: 58%; }
+
+    /* Fact box (hidden by default) */
+    #factBox {
+      position: absolute;
+      bottom: 80px;
+      right: 10px;
+      background: rgba(255,255,255,0.95);
+      border: 3px solid #ff80ab;
+      border-radius: 15px;
+      padding: 15px;
+      font-size: 1.1em;
+      color: #333;
+      width: 250px;
+      display: none;
+      box-shadow: 0 0 10px #ff80ab;
     }
 
     /* Compliments */
@@ -278,7 +295,7 @@
     My forever, this I know. 💖
   </div>
 
-  <!-- Lock Message (hidden by default, fades in/out) -->
+  <!-- Lock Message -->
   <div id="lockMessage">🔒 You have my heart forever 💖</div>
 
   <!-- Emoji controls -->
@@ -289,8 +306,12 @@
     <div id="lockEmoji">🔒</div>
   </div>
 
-  <!-- Globe emoji -->
+  <!-- Globe and Nerd emojis -->
   <div id="globeEmoji">🌍</div>
+  <div id="nerdEmoji">🤓</div>
+
+  <!-- Fact Box -->
+  <div id="factBox"></div>
 
   <script>
     /* Messages for Yes/No */
@@ -305,6 +326,18 @@
       "You make my heart dance like confetti 🎉",
       "Being with you is my favorite adventure 🌍✨",
       "I’m so proud of you, my darling 💕"
+    ];
+
+    /* Fun Facts */
+    const facts = [
+      "Bananas are berries, but strawberries are not! 🍌🍓",
+      "Octopuses have three hearts 💖🐙",
+      "Your stomach gets a new lining every 3 days! 🤯",
+      "Sharks existed before trees 🌳🦈",
+      "Sloths can hold their breath longer than dolphins! 🦥🐬",
+      "Butterflies can taste with their feet 🦋",
+      "Cows have best friends 🐮💕",
+      "The heart of a blue whale is the size of a car 🚙🐋"
     ];
 
     /* Countries */
@@ -332,6 +365,19 @@
     });
     noBtn.addEventListener("click", () => {
       msg.innerHTML = "Bruh 😒 (but I love you anyway 💖)";
+    });
+
+    /* Nerd emoji fact toggle */
+    const nerdEmoji = document.getElementById("nerdEmoji");
+    const factBox = document.getElementById("factBox");
+    nerdEmoji.addEventListener("click", () => {
+      if (factBox.style.display === "none" || factBox.style.display === "") {
+        const randomFact = facts[Math.floor(Math.random() * facts.length)];
+        factBox.textContent = randomFact;
+        factBox.style.display = "block";
+      } else {
+        factBox.style.display = "none";
+      }
     });
 
     /* Sidebar Questions */
