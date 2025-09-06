@@ -213,6 +213,44 @@
       font-size: 2em;
       cursor: pointer;
     }
+
+    /* Globe emoji */
+    #globeEmoji {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      font-size: 2em;
+      cursor: pointer;
+    }
+
+    /* Globe popup */
+    #globePopup {
+      position: absolute;
+      top: 50%;
+      right: 60px;
+      transform: translateY(-50%);
+      background: rgba(255,240,246,0.97);
+      border: 3px solid #ff80ab;
+      border-radius: 15px;
+      padding: 20px;
+      width: 250px;
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+      text-align: left;
+      box-shadow: 0 0 15px #ff66b2;
+      z-index: 3000;
+    }
+    #globePopup div {
+      margin: 5px 0;
+      padding: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #globePopup div:hover {
+      background: #ffe6f0;
+    }
   </style>
 </head>
 <body>
@@ -257,6 +295,12 @@
     <div id="moonEmoji">🌙</div>
     <div id="lockEmoji">🔒</div>
   </div>
+
+  <!-- Globe emoji -->
+  <div id="globeEmoji">🌍</div>
+
+  <!-- Globe popup -->
+  <div id="globePopup"></div>
 
   <script>
     /* Messages for Yes/No */
@@ -438,10 +482,8 @@
         poemBox.style.display = "none";
       }
     });
-
-    /* Lock message (toggle on/off) */
-    lockEmoji.addEventListener("click", () => {
-      if (lockMessage.style.display === "none" || lockMessage.style.display === "") {
+       lockEmoji.addEventListener("click", () => {
+       if (lockMessage.style.display === "none" || lockMessage.style.display === "") {
         lockMessage.style.display = "block";
       } else {
         lockMessage.style.display = "none";
@@ -450,3 +492,5 @@
   </script>
 </body>
 </html>
+   
+
