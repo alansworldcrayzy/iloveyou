@@ -181,7 +181,7 @@
       font-size: 1em;
       color: #d81b60;
       text-shadow: 0 0 6px #ffb6c1;
-      display: none; /* hidden until 📜 clicked */
+      display: none;
     }
 
     /* Lock message (hidden by default) */
@@ -198,7 +198,7 @@
       color: #d81b60;
       text-shadow: 0 0 8px #ff80ab;
       box-shadow: 0 0 20px #ff66b2, 0 0 30px #ffb6c1;
-      display: none; /* shows only after 🔒 clicked */
+      display: none;
       z-index: 2000;
     }
 
@@ -375,7 +375,7 @@
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 12000);
     }
-    setInterval(spawnHeart, 1000); // spawn every second
+    setInterval(spawnHeart, 1000);
 
     /* Stars when moon clicked */
     const moonEmoji = document.getElementById("moonEmoji");
@@ -415,9 +415,13 @@
       }
     });
 
-    /* Lock message (permanent popup) */
+    /* Lock message (toggle on/off) */
     lockEmoji.addEventListener("click", () => {
-      lockMessage.style.display = "block";
+      if (lockMessage.style.display === "none" || lockMessage.style.display === "") {
+        lockMessage.style.display = "block";
+      } else {
+        lockMessage.style.display = "none";
+      }
     });
   </script>
 </body>
