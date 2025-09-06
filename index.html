@@ -220,30 +220,29 @@
       cursor: pointer;
     }
 
-    /* Globe + Nerd emojis */
+    /* Globe & Nerd emoji */
     #globeEmoji, #nerdEmoji {
       position: absolute;
-      right: 10px;
       font-size: 2em;
       cursor: pointer;
+      right: 10px;
     }
     #globeEmoji { top: 50%; }
-    #nerdEmoji { top: 58%; }
+    #nerdEmoji { top: 60%; }
 
-    /* Fact box (hidden by default) */
+    /* Fun fact box */
     #factBox {
       position: absolute;
-      bottom: 80px;
+      top: 70%;
       right: 10px;
-      background: rgba(255,255,255,0.95);
-      border: 3px solid #ff80ab;
+      background: rgba(255,240,246,0.97);
+      border: 2px solid #ff80ab;
       border-radius: 15px;
       padding: 15px;
-      font-size: 1.1em;
-      color: #333;
+      font-size: 1.2em;
+      color: #d81b60;
       width: 250px;
       display: none;
-      box-shadow: 0 0 10px #ff80ab;
     }
 
     /* Compliments */
@@ -306,11 +305,11 @@
     <div id="lockEmoji">🔒</div>
   </div>
 
-  <!-- Globe and Nerd emojis -->
+  <!-- Globe and Nerd emoji -->
   <div id="globeEmoji">🌍</div>
   <div id="nerdEmoji">🤓</div>
 
-  <!-- Fact Box -->
+  <!-- Fun fact box -->
   <div id="factBox"></div>
 
   <script>
@@ -328,27 +327,15 @@
       "I’m so proud of you, my darling 💕"
     ];
 
-    /* Fun Facts */
-    const facts = [
-      "Bananas are berries, but strawberries are not! 🍌🍓",
-      "Octopuses have three hearts 💖🐙",
-      "Your stomach gets a new lining every 3 days! 🤯",
-      "Sharks existed before trees 🌳🦈",
-      "Sloths can hold their breath longer than dolphins! 🦥🐬",
-      "Butterflies can taste with their feet 🦋",
-      "Cows have best friends 🐮💕",
-      "The heart of a blue whale is the size of a car 🚙🐋"
-    ];
-
     /* Countries */
     const countries = [
-      "Poland", "Czechia", "Slovakia", "Hungary", "Lithuania",
-      "Latvia", "Estonia", "Slovenia", "Croatia", "Montenegro",
-      "Bosnia and Herzegovina", "North Macedonia", "Albania",
-      "Georgia", "Armenia", "Azerbaijan", "Mongolia", "Bhutan",
-      "Laos", "Maldives", "Fiji", "Samoa", "Vanuatu", "Madagascar",
-      "Seychelles", "Mauritius", "Eswatini", "Lesotho", "Suriname",
-      "Guyana", "Belize", "Palau", "Micronesia", "Kiribati", "Tonga"
+      "Poland","Czechia","Slovakia","Hungary","Lithuania",
+      "Latvia","Estonia","Slovenia","Croatia","Montenegro",
+      "Bosnia and Herzegovina","North Macedonia","Albania",
+      "Georgia","Armenia","Azerbaijan","Mongolia","Bhutan",
+      "Laos","Maldives","Fiji","Samoa","Vanuatu","Madagascar",
+      "Seychelles","Mauritius","Eswatini","Lesotho","Suriname",
+      "Guyana","Belize","Palau","Micronesia","Kiribati","Tonga"
     ];
     function getRandomCountry() {
       return countries[Math.floor(Math.random() * countries.length)];
@@ -365,19 +352,6 @@
     });
     noBtn.addEventListener("click", () => {
       msg.innerHTML = "Bruh 😒 (but I love you anyway 💖)";
-    });
-
-    /* Nerd emoji fact toggle */
-    const nerdEmoji = document.getElementById("nerdEmoji");
-    const factBox = document.getElementById("factBox");
-    nerdEmoji.addEventListener("click", () => {
-      if (factBox.style.display === "none" || factBox.style.display === "") {
-        const randomFact = facts[Math.floor(Math.random() * facts.length)];
-        factBox.textContent = randomFact;
-        factBox.style.display = "block";
-      } else {
-        factBox.style.display = "none";
-      }
     });
 
     /* Sidebar Questions */
@@ -504,24 +478,80 @@
       window.open("https://www.google.com/maps", "_blank");
     });
 
+    /* Fun Facts */
+    const facts = [
+      "Bananas are berries, but strawberries are not! 🍌🍓",
+      "Octopuses have three hearts 💖🐙",
+      "Your stomach gets a new lining every 3 days! 🤯",
+      "Sharks existed before trees 🌳🦈",
+      "Sloths can hold their breath longer than dolphins! 🦥🐬",
+      "Butterflies can taste with their feet 🦋",
+      "Cows have best friends 🐮💕",
+      "The heart of a blue whale is the size of a car 🚙🐋",
+      "Wombat poop is cube-shaped 🐾🟦",
+      "A day on Venus is longer than a year on Venus 🌌✨",
+      "Sea otters hold hands while they sleep so they don’t drift apart 🦦💕",
+      "Koalas’ fingerprints are almost identical to humans’ 👣🐨",
+      "A cloud can weigh more than a million pounds ☁️😲",
+      "Pineapples take about 2 years to grow 🍍",
+      "Some turtles can breathe through their butts 🐢😅",
+      "There are more stars in the universe than grains of sand on Earth 🌌🏖️",
+      "A snail can sleep for up to 3 years 🐌💤",
+      "Avocados never ripen on the tree—they ripen after being picked 🥑",
+      "An octopus can taste with its arms 🐙👅",
+      "The inventor of the Pringles can is buried in one ⚰️🥔",
+      "Otters have a special pocket to keep their favorite rock 🪨🦦",
+      "A group of flamingos is called a flamboyance 🦩✨",
+      "Caterpillars completely liquefy inside their cocoon 🐛➡️🦋",
+      "The tongue of a blue whale weighs more than an elephant 🐘🐋",
+      "Pigeons can recognize themselves in a mirror 🪞🐦",
+      "There’s a species of jellyfish that can live forever 🪼♾️",
+      "Apples float in water because they are 25% air 🍏💨",
+      "Rats laugh when tickled 🐭😂",
+      "A day on Saturn lasts only 10.7 hours 🪐",
+      "Ants never sleep 😴❌🐜",
+      "Elephants are the only animals that can’t jump 🐘🚫",
+      "Banana plants are actually herbs, not trees 🌿🍌",
+      "Sharks don’t have bones—they’re made of cartilage 🦈",
+      "Starfish can regrow their arms ⭐️🐟",
+      "There are more plastic flamingos than real ones 🦩🪑",
+      "A cockroach can live for weeks without its head 🪳😳",
+      "Some frogs can freeze solid and come back to life 🐸❄️",
+      "The dot over the letter 'i' is called a tittle ✒️",
+      "Water can boil and freeze at the same time (triple point) 💧❄️🔥",
+      "The fingerprints of a koala can confuse crime scene investigators 🐨🔍"
+    ];
+
+    const nerdEmoji = document.getElementById("nerdEmoji");
+    const factBox = document.getElementById("factBox");
+
+    nerdEmoji.addEventListener("click", () => {
+      factBox.style.display = "block";
+      factBox.textContent = facts[Math.floor(Math.random() * facts.length)];
+    });
+
     /* Compliments */
     const compliments = [
       "You’re so beautiful 💖",
-      "You make my heart happy 🥰",
-      "I adore your smile 🌸",
-      "You’re my sunshine ☀️",
-      "Life is better with you 🌍",
-      "My forever love 💕"
+      "You make my world brighter ☀️",
+      "Your laugh is my favorite song 🎶",
+      "You’re cuter than all the stars ✨",
+      "You’re my everything 💕",
+      "You make every day magical 🌸",
+      "My heart belongs to you ❤️",
+      "You are simply perfect 💎",
+      "You’re my favorite person 🌍",
+      "You’re sweeter than candy 🍬"
     ];
     function spawnCompliment() {
       const compliment = document.createElement("div");
       compliment.classList.add("compliment");
       compliment.textContent = compliments[Math.floor(Math.random() * compliments.length)];
-      compliment.style.top = "50%";
+      compliment.style.top = `${40 + Math.random() * 20}%`;
       document.body.appendChild(compliment);
       setTimeout(() => compliment.remove(), 15000);
     }
-    setInterval(spawnCompliment, 3000);
+    setInterval(spawnCompliment, 5000);
   </script>
 </body>
 </html>
