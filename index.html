@@ -438,6 +438,17 @@
     $("#poemEmoji").addEventListener("click", () => {
       poemBox.style.display = poemBox.style.display === "none" ? "block" : "none";
     });
+/* ===================== Fun Facts (always show new fact with 🤓) ===================== */
+function showRandomFact(){
+  factBox.textContent = pick(facts);
+  factBox.classList.add("show"); // always visible once shown
+}
+
+// Every click on 🤓 = new fact (never hides)
+nerdEmoji.addEventListener("click", showRandomFact);
+
+// Clicking the fact box itself also cycles facts
+factBox.addEventListener("click", showRandomFact);
 
     $("#moonEmoji").addEventListener("click", () => {
       document.body.style.animation = "none";               // pause gradient shift
