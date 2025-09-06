@@ -223,33 +223,20 @@
       cursor: pointer;
     }
 
-    /* Globe popup */
-    #globePopup {
+    /* Compliments */
+    .compliment {
       position: absolute;
       top: 50%;
-      right: 60px;
-      transform: translateY(-50%);
-      background: rgba(255,240,246,0.97);
-      border: 3px solid #ff80ab;
-      border-radius: 15px;
-      padding: 20px;
-      width: 250px;
-      max-height: 300px;
-      overflow-y: auto;
-      display: none;
-      text-align: left;
-      box-shadow: 0 0 15px #ff66b2;
-      z-index: 3000;
+      left: 100%;
+      font-size: 1.5em;
+      color: #ff4da6;
+      opacity: 0.4;
+      white-space: nowrap;
+      animation: moveLeft 15s linear infinite;
     }
-    #globePopup div {
-      margin: 5px 0;
-      padding: 5px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    #globePopup div:hover {
-      background: #ffe6f0;
+    @keyframes moveLeft {
+      from { left: 100%; }
+      to { left: -100%; }
     }
   </style>
 </head>
@@ -299,9 +286,6 @@
   <!-- Globe emoji -->
   <div id="globeEmoji">🌍</div>
 
-  <!-- Globe popup -->
-  <div id="globePopup"></div>
-
   <script>
     /* Messages for Yes/No */
     const messages = [
@@ -317,20 +301,16 @@
       "I’m so proud of you, my darling 💕"
     ];
 
-    /* 🌍 Country list */
+    /* Countries */
     const countries = [
-      "United States", "Canada", "Mexico", "Brazil", "Argentina",
-      "United Kingdom", "France", "Germany", "Italy", "Spain",
       "Poland", "Czechia", "Slovakia", "Hungary", "Lithuania",
       "Latvia", "Estonia", "Slovenia", "Croatia", "Montenegro",
       "Bosnia and Herzegovina", "North Macedonia", "Albania",
       "Georgia", "Armenia", "Azerbaijan", "Mongolia", "Bhutan",
-      "Laos", "Maldives", "Fiji", "Samoa", "Vanuatu",
-      "Madagascar", "Seychelles", "Mauritius", "Eswatini",
-      "Lesotho", "Suriname", "Guyana", "Belize", "Palau",
-      "Micronesia", "Kiribati", "Tonga"
+      "Laos", "Maldives", "Fiji", "Samoa", "Vanuatu", "Madagascar",
+      "Seychelles", "Mauritius", "Eswatini", "Lesotho", "Suriname",
+      "Guyana", "Belize", "Palau", "Micronesia", "Kiribati", "Tonga"
     ];
-
     function getRandomCountry() {
       return countries[Math.floor(Math.random() * countries.length)];
     }
@@ -339,12 +319,11 @@
     const noBtn = document.getElementById("noBtn");
     const msg = document.getElementById("loveMsg");
 
-    function showLove() {
+    yesBtn.addEventListener("click", () => {
       const randomMsg = messages[Math.floor(Math.random() * messages.length)];
       const randomCountry = getRandomCountry();
       msg.innerHTML = `${randomMsg} (let’s go to ${randomCountry} someday 🌍💕)`;
-    }
-    yesBtn.addEventListener("click", showLove);
+    });
     noBtn.addEventListener("click", () => {
       msg.innerHTML = "Bruh 😒 (but I love you anyway 💖)";
     });
@@ -365,12 +344,8 @@
 
     setInterval(() => {
       if (rotating) {
-        if (questions[questionIndex].includes("anywhere together")) {
-          questionText.textContent = `If we could go anywhere together, should we go to ${getRandomCountry()}? ✈️🌍`;
-        } else {
-          questionText.textContent = questions[questionIndex];
-        }
         questionIndex = (questionIndex + 1) % questions.length;
+        questionText.textContent = questions[questionIndex];
       }
     }, 3000);
 
@@ -379,7 +354,7 @@
     answerInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && answerInput.value.trim() !== "") {
         const answer = document.createElement("div");
-        answer.textContent = `💖 ${questionText.textContent} — ${answerInput.value}`;
+        answer.textContent = `💖 ${questions[questionIndex]} — ${answerInput.value}`;
         answersList.appendChild(answer);
         answerInput.value = "";
         rotating = true;
@@ -419,12 +394,11 @@
       setTimeout(() => popup.remove(), 3000);
     }
 
-    /* Floating clickable hearts minigame */
+    /* Floating clickable hearts */
     function spawnHeart() {
       const heart = document.createElement("div");
       heart.classList.add("clickable-heart");
-      const colors = ["💖","❤️","💜","💚"];
-      heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
+      heart.innerHTML = "💖";
       heart.style.left = Math.random() * window.innerWidth + "px";
       heart.style.bottom = "0px";
 
@@ -445,52 +419,56 @@
     }
     setInterval(spawnHeart, 1000);
 
-    /* Stars when moon clicked */
-    const moonEmoji = document.getElementById("moonEmoji");
-    const sunEmoji = document.getElementById("sunEmoji");
-    const poemEmoji = document.getElementById("poemEmoji");
-    const lockEmoji = document.getElementById("lockEmoji");
+    /* Emojis */
     const poemBox = document.getElementById("poemBox");
-    const lockMessage = document.getElementById("lockMessage");
-    let stars = [];
+    document.getElementById("poemEmoji").addEventListener("click", () => {
+      poemBox.style.display = poemBox.style.display === "none" ? "block" : "none";
+    });
 
-    moonEmoji.addEventListener("click", () => {
+    document.getElementById("moonEmoji").addEventListener("click", () => {
       document.body.style.background = "black";
       for (let i = 0; i < 30; i++) {
         const star = document.createElement("div");
         star.classList.add("star");
-        star.innerHTML = "✦";
-        star.style.left = Math.random() * window.innerWidth + "px";
+        star.textContent = "✨";
         star.style.top = Math.random() * window.innerHeight + "px";
-        star.style.fontSize = Math.random() * 12 + 8 + "px";
+        star.style.left = Math.random() * window.innerWidth + "px";
         document.body.appendChild(star);
-        stars.push(star);
       }
     });
 
-    sunEmoji.addEventListener("click", () => {
+    document.getElementById("sunEmoji").addEventListener("click", () => {
       document.body.style.background = "linear-gradient(to right, #ffdde1, #ee9ca7)";
-      stars.forEach(star => star.remove());
-      stars = [];
+      document.querySelectorAll(".star").forEach(star => star.remove());
     });
 
-    /* Poem toggle */
-    poemEmoji.addEventListener("click", () => {
-      if (poemBox.style.display === "none") {
-        poemBox.style.display = "block";
-      } else {
-        poemBox.style.display = "none";
-      }
+    const lockMessage = document.getElementById("lockMessage");
+    document.getElementById("lockEmoji").addEventListener("click", () => {
+      lockMessage.style.display = "block";
     });
-       lockEmoji.addEventListener("click", () => {
-       if (lockMessage.style.display === "none" || lockMessage.style.display === "") {
-        lockMessage.style.display = "block";
-      } else {
-        lockMessage.style.display = "none";
-      }
+
+    document.getElementById("globeEmoji").addEventListener("click", () => {
+      window.open("https://www.google.com/maps", "_blank");
     });
+
+    /* Compliments */
+    const compliments = [
+      "You’re so beautiful 💖",
+      "You make my heart happy 🥰",
+      "I adore your smile 🌸",
+      "You’re my sunshine ☀️",
+      "Life is better with you 🌍",
+      "My forever love 💕"
+    ];
+    function spawnCompliment() {
+      const compliment = document.createElement("div");
+      compliment.classList.add("compliment");
+      compliment.textContent = compliments[Math.floor(Math.random() * compliments.length)];
+      compliment.style.top = "50%";
+      document.body.appendChild(compliment);
+      setTimeout(() => compliment.remove(), 15000);
+    }
+    setInterval(spawnCompliment, 3000);
   </script>
 </body>
 </html>
-   
-
