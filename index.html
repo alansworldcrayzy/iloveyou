@@ -11,6 +11,7 @@
       height: 100vh;
       margin: 0;
       overflow: hidden;
+      transition: background 1s ease;
     }
     h1 {
       font-size: 2.5em;
@@ -153,42 +154,45 @@
       100% { transform: scale(1) translate(-50%, -50%); opacity: 1; }
     }
 
-    /* Poem box */
-    #poemBox {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #fff0f6;
-      border: 3px solid #ff80ab;
-      border-radius: 20px;
-      padding: 20px;
-      width: 300px;
-      box-shadow: 0 0 20px #ff80ab;
-      font-size: 1.2em;
-      color: #d81b60;
-    }
-
-    /* Emojis (left side) */
-    #poem, #moon, #sun {
-      position: absolute;
-      left: 20px;
-      font-size: 2em;
-      cursor: pointer;
-    }
-    #poem { top: 150px; }
-    #moon { top: 200px; }
-    #sun { top: 250px; }
-
     /* Stars */
     .star {
       position: absolute;
-      width: 3px;
-      height: 3px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.3;
+      color: white;
+      font-size: 1em;
+      opacity: 0.8;
+      animation: twinkle 4s infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    /* Fixed poem */
+    #poemBox {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      width: 250px;
+      padding: 15px;
+      background: rgba(255,240,246,0.95);
+      border: 3px solid #ff80ab;
+      border-radius: 15px;
+      font-size: 1em;
+      color: #d81b60;
+      text-shadow: 0 0 6px #ffb6c1;
+    }
+
+    /* Emoji controls */
+    #controls {
+      position: absolute;
+      top: 65%;
+      left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 2em;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -217,17 +221,20 @@
 
   <!-- Poem -->
   <div id="poemBox">
-    🌸 My Darling 🌸 <br><br>
+    🌸 Our Poem 🌸<br><br>
     In your smile, the sun will rise,<br>
-    A brighter world behind your eyes.<br>
-    With every laugh, the stars all gleam,<br>
-    You are my forever dream. 💖
+    Lighting stars within your eyes.<br>
+    Hand in hand, through time we’ll go,<br>
+    My forever, this I know. 💖
   </div>
 
-  <!-- Left side emojis -->
-  <div id="poem">💌</div>
-  <div id="moon">🌙</div>
-  <div id="sun">☀️</div>
+  <!-- Emoji controls -->
+  <div id="controls">
+    <div id="poemEmoji">📜</div>
+    <div id="sunEmoji">☀️</div>
+    <div id="moonEmoji">🌙</div>
+    <div id="lockEmoji">🔒</div>
+  </div>
 
   <script>
     /* Messages for Yes/No */
@@ -326,7 +333,8 @@
     function spawnHeart() {
       const heart = document.createElement("div");
       heart.classList.add("clickable-heart");
-      heart.innerHTML = "💖";
+      const colors = ["💖","❤️","💜","💚"];
+      heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
       heart.style.left = Math.random() * window.innerWidth + "px";
       heart.style.bottom = "0px";
 
@@ -343,52 +351,38 @@
       });
 
       document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 12000); // last longer
+      setTimeout(() => heart.remove(), 12000);
     }
-    setInterval(spawnHeart, 2000);
+    setInterval(spawnHeart, 1000); // spawn every second
 
-    /* Poem popup */
-    const poemBtn = document.getElementById("poem");
-    const poemBox = document.getElementById("poemBox");
-    poemBtn.addEventListener("click", () => {
-      poemBox.style.display = poemBox.style.display === "block" ? "none" : "block";
-    });
+    /* Stars when moon clicked */
+    const moonEmoji = document.getElementById("moonEmoji");
+    const sunEmoji = document.getElementById("sunEmoji");
+    let stars = [];
 
-    /* Moon & Sun toggle */
-    const moon = document.getElementById("moon");
-    const sun = document.getElementById("sun");
-    let starInterval;
-
-    moon.addEventListener("click", () => {
+    moonEmoji.addEventListener("click", () => {
       document.body.style.background = "black";
-      document.querySelectorAll(".star").forEach(star => star.remove());
-
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 30; i++) {
         const star = document.createElement("div");
         star.classList.add("star");
-        star.style.top = Math.random() * window.innerHeight + "px";
+        star.innerHTML = "✦";
         star.style.left = Math.random() * window.innerWidth + "px";
+        star.style.top = Math.random() * window.innerHeight + "px";
+        star.style.fontSize = Math.random() * 12 + 8 + "px";
         document.body.appendChild(star);
+        stars.push(star);
       }
-
-      starInterval = setInterval(() => {
-        const stars = document.querySelectorAll(".star");
-        if (stars.length > 0) {
-          const randomStar = stars[Math.floor(Math.random() * stars.length)];
-          randomStar.style.transition = "opacity 1s ease";
-          randomStar.style.opacity = randomStar.style.opacity === "1" ? "0.3" : "1";
-        }
-      }, 4000);
     });
 
-    sun.addEventListener("click", () => {
+    sunEmoji.addEventListener("click", () => {
       document.body.style.background = "linear-gradient(to right, #ffdde1, #ee9ca7)";
-      document.querySelectorAll(".star").forEach(star => star.remove());
-      clearInterval(starInterval);
+      stars.forEach(star => star.remove());
+      stars = [];
     });
   </script>
 </body>
 </html>
+
 
    
 
