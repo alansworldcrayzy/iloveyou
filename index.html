@@ -16,11 +16,13 @@
       align-items: center;
       overflow: hidden;
     }
+
     h1 {
       font-size: 2.5em;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       color: #d81b60;
     }
+
     button {
       background: #ff4081;
       color: white;
@@ -33,132 +35,154 @@
       transition: transform 0.2s;
       position: relative;
     }
+
     button:hover {
       transform: scale(1.1);
     }
+
     #loveMsg {
-      margin-top: 30px;
+      margin-top: 20px;
       font-size: 1.8em;
       color: hotpink;
       font-weight: bold;
       max-width: 80%;
       line-height: 1.5em;
     }
-    canvas {
+
+    /* Sidebar question box (top right) */
+    #questionBox {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-    /* Sidebar */
-    #sidebar {
-      position: fixed;
+      top: 20px;
       right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 0 15px rgba(255, 64, 129, 0.6);
-      width: 230px;
-      text-align: center;
-    }
-    #question {
-      font-size: 1.2em;
-      color: #d81b60;
-      font-weight: bold;
-      margin-bottom: 10px;
-      transition: all 0.3s ease-in-out;
-    }
-    /* Cute input */
-    .inputWrapper {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-    }
-    #answerInput {
-      padding: 10px;
-      width: 90%;
+      background: #fff0f6;
+      border: 3px solid #ff80ab;
       border-radius: 20px;
-      border: 2px solid #ff80ab;
-      outline: none;
-      text-align: center;
-      background: linear-gradient(to right, #ffe4ec, #ffd1dc);
-      font-size: 1em;
-      box-shadow: 0 0 8px rgba(255, 105, 180, 0.6);
-    }
-    .animals {
-      position: absolute;
-      top: -28px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      font-size: 1.2em;
-      animation: bounce 1.5s infinite alternate;
-    }
-    @keyframes bounce {
-      from { transform: translateX(-50%) translateY(0); }
-      to { transform: translateX(-50%) translateY(-5px); }
-    }
-    /* Answers pile */
-    #answers {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      width: 220px;
-      max-height: 150px;
-      overflow-y: auto;
-      background: rgba(255, 240, 245, 0.9);
-      border: 2px solid #ff80ab;
-      border-radius: 15px;
-      padding: 10px;
-      box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
-    }
-    #answers p {
-      margin: 5px 0;
-      font-size: 1em;
-      color: #d81b60;
-      font-weight: bold;
+      padding: 15px;
+      width: 260px;
+      font-size: 1.1em;
+      color: #5a3e36;
+      box-shadow: 0 0 15px #ff80ab, 0 0 25px #ffb6c1;
       animation: glow 1.5s infinite alternate;
     }
+
     @keyframes glow {
-      from { text-shadow: 0 0 5px hotpink; }
-      to { text-shadow: 0 0 15px deeppink; }
+      from { box-shadow: 0 0 10px #ff80ab; }
+      to { box-shadow: 0 0 20px #ff4da6, 0 0 30px #ff99cc; }
+    }
+
+    /* Cute glowing text box */
+    #answerInput {
+      width: 350px;
+      padding: 15px 20px;
+      border: 3px solid #ff80ab;
+      border-radius: 25px;
+      outline: none;
+      font-size: 1.1em;
+      color: #5a3e36;
+      background: #fff0f6;
+      box-shadow: 0 0 10px #ff80ab, 0 0 20px #ffb6c1;
+      transition: all 0.3s ease;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      margin-top: 15px;
+    }
+
+    #answerInput:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff66b2, 0 0 40px #ff99cc, 0 0 60px #ffb6c1;
+      background: #ffe0ec;
+    }
+
+    #answerInput:focus {
+      transform: scale(1.08);
+      box-shadow: 0 0 25px #ff4da6, 0 0 50px #ff99cc, 0 0 75px #ffb6c1;
+      background: #ffe6f0;
+    }
+
+    #answerInput::placeholder {
+      color: #ff4da6;
+      opacity: 0.8;
+      font-style: italic;
+    }
+
+    /* Floating hearts for hover */
+    .hearts {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: 0;
+      font-size: 20px;
+      animation: floatUp 2s linear forwards;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-80px) scale(1.5); opacity: 0; }
+    }
+
+    /* Saved answers list */
+    #answersList {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      text-align: left;
+      font-size: 1.1em;
+      color: #d81b60;
+    }
+
+    #answersList div {
+      margin: 5px 0;
+      padding: 5px 10px;
+      background: #ffe6f0;
+      border-radius: 10px;
+      box-shadow: 0 0 8px #ff80ab;
+      animation: pop 0.4s ease;
+    }
+
+    #answersList div::before {
+      content: "💖 ";
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <h1>Happy year and a half ❤️</h1>
   <h1>Do you love me? 💕</h1>
   <button id="yesBtn">Yes 💖</button>
   <button id="noBtn">No 😒</button>
   <div id="loveMsg"></div>
-  <canvas id="hearts"></canvas>
 
-  <!-- Sidebar -->
-  <div id="sidebar">
-    <div id="question">Loading...</div>
-    <div class="inputWrapper">
-      <input id="answerInput" type="text" placeholder="Type your answer...">
-      <div class="animals">🐱 🐰 🐻 🦊</div>
+  <!-- Sidebar question + input -->
+  <div id="questionBox">
+    <div id="questionText">What's your favourite moment with me? 💕</div>
+    <div style="position:relative; display:inline-block;">
+      <input type="text" id="answerInput" placeholder="Type your answer here 💖">
+      <div class="hearts" id="heartsContainer"></div>
     </div>
   </div>
 
-  <!-- Answers pile -->
-  <div id="answers"></div>
-  
+  <!-- Saved answers list -->
+  <div id="answersList"></div>
+
   <script>
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const msg = document.getElementById("loveMsg");
-    const canvas = document.getElementById("hearts");
-    const ctx = canvas.getContext("2d");
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const input = document.getElementById("answerInput");
+    const heartsContainer = document.getElementById("heartsContainer");
+    const answersList = document.getElementById("answersList");
+    const questionText = document.getElementById("questionText");
 
     const messages = [
       "I love you the most! 💖✨",
@@ -167,110 +191,62 @@
       "Forever and always, it’s you 💍",
       "Every heartbeat of mine whispers your name ❤️",
       "Life is magical because of you ✨",
-      "You’re the peanut butter to my jelly 🥪💕",
-      "If kisses were stars, I’d give you the galaxy 🌌",
-      "You’re my today and all of my tomorrows 💞",
-      "Hugging you is my happy place 🤗❤️",
-      "You make my heart dance like confetti 🎉",
-      "You are the dream I never want to wake up from 🌙💖",
-      "Being with you is my favorite adventure 🌍✨",
-      "You make even ordinary days feel extraordinary 🌸",
-      "I’m so proud of you, my darling 💕"
+      "You’re the peanut butter to my jelly 🥪💕"
     ];
 
     const questions = [
-      "what's your favourite moment with me?",
-      "meow?? 🐾",
-      "what's something small I do that always makes you feel loved?",
-      "what’s your favourite thing I do?",
-      "what song reminds you of us?",
-      "not a question but i love youuuu ",
-      "what’s a word that makes you think of me?"
+      "What's your favourite moment with me? 💕",
+      "Meow?? 🐱",
+      "If we could travel anywhere, where would you take me? 🌍",
+      "What’s your happiest memory with us? ✨",
+      "Would you still love me if I was a worm? 🐛💕"
     ];
 
-    const questionEl = document.getElementById("question");
-    const answerInput = document.getElementById("answerInput");
-    const answersDiv = document.getElementById("answers");
+    let questionIndex = 0;
 
-    let currentQ = 0;
-    function showQuestion() {
-      questionEl.style.color = "#d81b60";
-      questionEl.innerText = questions[currentQ];
-      questionEl.style.transition = "all 0.3s ease-in-out";
-      setTimeout(() => {
-        currentQ = (currentQ + 1) % questions.length;
-        showQuestion();
-      }, 5000);
+    function rotateQuestion() {
+      questionIndex = (questionIndex + 1) % questions.length;
+      questionText.textContent = questions[questionIndex];
     }
-    showQuestion();
 
-    // Save answer on Enter
-    answerInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && answerInput.value.trim() !== "") {
-        const p = document.createElement("p");
-        const heartColors = ["💖","❤️","💜","💚"];
-        const heart = heartColors[Math.floor(Math.random() * heartColors.length)];
-        p.innerText = `${heart} ${answerInput.value}`;
-        answersDiv.appendChild(p);
-        answerInput.value = "";
-        answersDiv.scrollTop = answersDiv.scrollHeight;
+    setInterval(rotateQuestion, 5000);
+
+    // Floating hearts on hover
+    input.addEventListener("mouseenter", () => {
+      for (let i = 0; i < 5; i++) {
+        let heart = document.createElement("span");
+        heart.classList.add("heart");
+        heart.innerHTML = "💖";
+        heart.style.left = `${Math.random() * 100 - 50}px`;
+        heartsContainer.appendChild(heart);
+        setTimeout(() => { heart.remove(); }, 2000);
       }
     });
 
-    // Floating hearts
-    const hearts = [];
-    function createHeart() {
-      const colors = ["pink", "red", "purple", "green"];
-      hearts.push({
-        x: Math.random() * canvas.width,
-        y: canvas.height + 20,
-        size: Math.random() * 20 + 10,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        speed: Math.random() * 2 + 1,
-        alpha: 1
-      });
-    }
-    function drawHearts() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      hearts.forEach((h, i) => {
-        ctx.globalAlpha = h.alpha;
-        ctx.fillStyle = h.color;
-        ctx.beginPath();
-        ctx.arc(h.x, h.y, h.size, 0, Math.PI * 2);
-        ctx.fill();
-        h.y -= h.speed;
-        h.alpha -= 0.005;
-        if (h.alpha <= 0) hearts.splice(i, 1);
-      });
-      ctx.globalAlpha = 1;
-    }
-    function animateHearts() {
-      drawHearts();
-      requestAnimationFrame(animateHearts);
-    }
-    animateHearts();
-    setInterval(createHeart, 300);
+    // Save answer on Enter
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter" && input.value.trim() !== "") {
+        let answer = document.createElement("div");
+        answer.textContent = input.value.trim();
+        answersList.appendChild(answer);
+        input.value = "";
+      }
+    });
 
-    // Love messages
+    // Show messages
     function showLove() {
       const randomMsg = messages[Math.floor(Math.random() * messages.length)];
       msg.innerHTML = randomMsg;
     }
 
     yesBtn.addEventListener("click", showLove);
-
-    // BRUH popup on first no
-    let noClicked = false;
     noBtn.addEventListener("click", () => {
-      if (!noClicked) {
-        alert("BRUH 😤");
-        noClicked = true;
-      } else {
-        showLove();
-      }
+      msg.innerHTML = "<span style='font-size:2em; color:red;'>BRUH 😭</span>";
+      setTimeout(showLove, 2000);
     });
   </script>
 </body>
 </html>
 
+   
 
